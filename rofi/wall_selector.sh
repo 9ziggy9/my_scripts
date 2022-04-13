@@ -1,19 +1,6 @@
 #!/bin/bash
 
-# options to be displayed
-option0="screen"
-option1="area"
-option2="window"
+WALL_PATH=~/backgrounds
 
-# options to be displyed
-options="$option0\n$option1\n$option2"
-
-selected="$(echo -e "$options" | rofi -lines 3 -dmenu -p "scrot")"
-case $selected in
-    $option0)
-        cd ~/Pictures/scrots/ && sleep 1 && scrot;;
-    $option1)
-        cd ~/Pictures/scrots/ && scrot -s;;
-    $option2)
-        cd ~/Pictures/scrots/ && sleep 1 && scrot -u;;
-esac
+selected="$(find $WALL_PATH -mindepth 1 -type f -printf "%f\n" ! '(' -name 'wallpaper.png' ')' | rofi -lines 3 -dmenu -p "scrot")"
+cp $WALL_PATH/$selected $WALL_PATH/wallpaper.png && bspc wm -r
